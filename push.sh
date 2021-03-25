@@ -31,7 +31,7 @@ git config --global user.email "4677226-crazyuploader@users.noreply.gitlab.com"
 git config --global user.name "Jugal Kishore"
 
 cd ~/ip_asn_json
-echo -e "IP To JSON Mappings\n" > README.md
+echo -e "## IP To JSON Mappings\n" > README.md
 echo -e "JSON File(s) as on: \n\n_$(date)_" >> README.md
 if [[ -z $(git status --porcelain) ]]; then
     echo -e "${GREEN}Nothing to Commit${NC}"
