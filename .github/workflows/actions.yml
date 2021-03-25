@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  container:
+  asn_intelligence:
     runs-on: ubuntu-latest
     container: ubuntu:focal
 
@@ -41,5 +41,11 @@ jobs:
 
       - name: Test
         run: |
-          if [[ ! -f "/tmp/prefix_asn_mapping_v4.json" ]]; then echo "IPv4 JSON not found, failing..." && exit 1; fi
-          if [[ ! -f "/tmp/prefix_asn_mapping_v6.json" ]]; then echo "IPv6 JSON not found, failing..." && exit 1; fi
+          if [[ ! -f "/tmp/prefix_asn_mapping_v4.json" ]]; then echo "IPv4 JSON not found, failing..." && exit 1; else echo "IPv4 JSON found"; fi
+          if [[ ! -f "/tmp/prefix_asn_mapping_v6.json" ]]; then echo "IPv6 JSON not found, failing..." && exit 1; else echo "IPv6 JSON found"; fi
+
+      - name: Push to GitLab
+        run: |
+          ./push.sh
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
