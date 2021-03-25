@@ -31,13 +31,13 @@ jobs:
           wget https://github.com/RIPE-NCC/bgpdump/releases/download/v1.6.2/libbgpdump-1.6.2.tgz -Olibbgpdump-1.6.2.tgz
           tar -xf libbgpdump-1.6.2.tgz
           cd libbgpdump-1.6.2; ./configure --prefix=/opt/libbgpdump; make -j; make install
-          git clone https://github.com/pavel-odintsov/asn_intelligence asn
-          mkdir asn/src/build
-          cd asn/src/build; cmake ..; make -j
+          git clone https://github.com/pavel-odintsov/asn_intelligence "${GITHUB_WORKSPACE}"/asn
+          mkdir "${GITHUB_WORKSPACE}"/asn/src/build
+          cd "${GITHUB_WORKSPACE}"/asn/src/build; cmake ..; make -j
 
       - name: Run ASN_Intelligence
         run: |
-          asn/build/asn_intelligence
+          "${GITHUB_WORKSPACE}"/asn/src/build/asn_intelligence
 
       - name: Test
         run: |
