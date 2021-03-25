@@ -5,7 +5,8 @@ on:
     branches: ["*"]
   pull_request:
     branches: ["*"]
-
+  schedule:
+    - cron: "*/30 18 * * *"
   workflow_dispatch:
 
 jobs:
@@ -27,7 +28,8 @@ jobs:
             libboost-serialization-dev \
             libboost-regex-dev \
             libbz2-dev \
-            zlib1g-dev
+            zlib1g-dev \
+            tzdata
           wget https://github.com/RIPE-NCC/bgpdump/releases/download/v1.6.2/libbgpdump-1.6.2.tgz -Olibbgpdump-1.6.2.tgz
           tar -xf libbgpdump-1.6.2.tgz
           cd libbgpdump-1.6.2; ./configure --prefix=/opt/libbgpdump; make -j; make install
@@ -49,3 +51,4 @@ jobs:
           ./push.sh
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+          TZ: Asia/Kolkata

@@ -34,6 +34,7 @@ cd ~/ip_asn_json
 if [[ -z $(git status --porcelain) ]]; then
     echo -e "${GREEN}Nothing to Commit${NC}"
 else
+    echo "JSON File(s) as on: \n$(date)" > README.md
     git add .
     git commit -m "GitHub Actions Daily Runner"
     git push https://crazyuploader:"${GITLAB_TOKEN}"@"${GL_REF}" HEAD:master
