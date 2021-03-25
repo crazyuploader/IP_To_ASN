@@ -1,0 +1,45 @@
+name: IP To ASN Runner
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+
+  workflow_dispatch:
+
+jobs:
+  container:
+    runs-on: ubuntu-latest
+    container: ubuntu:focal
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Preparing Environment
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND="noninteractive" apt-get install -y \
+            wget curl \
+            pbzip2 python3-pip \
+            gcc g++ git \
+            cmake make \
+            libboost-date-time-dev \
+            libboost-serialization-dev \
+            libboost-regex-dev \
+            libbz2-dev \
+            zlib1g-dev
+          wget https://github.com/RIPE-NCC/bgpdump/releases/download/v1.6.2/libbgpdump-1.6.2.tgz -Olibbgpdump-1.6.2.tgz
+          tar -xf libbgpdump-1.6.2.tgz
+          cd libbgpdump-1.6.2; ./configure --prefix=/opt/libbgpdump; make -j; make install
+          git clone https://github.com/pavel-odintsov/asn_intelligence asn
+          mkdir asn/src/build
+          cd asn/src/build; cmake ..; make -j
+
+      - name: Run ASN_Intelligence
+        run: |
+          asn/build/asn_intelligence
+
+      - name: Test
+        run: |
+          if [[ ! -f "/tmp/prefix_asn_mapping_v4.json" ]]; then echo "IPv4 JSON not found, failing..." && exit 1; fi
+          if [[ ! -f "/tmp/prefix_asn_mapping_v6.json" ]]; then echo "IPv6 JSON not found, failing..." && exit 1; fi
