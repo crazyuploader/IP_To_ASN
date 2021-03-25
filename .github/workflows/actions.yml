@@ -39,7 +39,7 @@ jobs:
         run: |
           "${GITHUB_WORKSPACE}"/asn/src/build/asn_intelligence
 
-      - name: Test
+      - name: Check if JSON file(s) exists
         run: |
           if [[ ! -f "/tmp/prefix_asn_mapping_v4.json" ]]; then echo "IPv4 JSON not found, failing..." && exit 1; else echo "IPv4 JSON found"; fi
           if [[ ! -f "/tmp/prefix_asn_mapping_v6.json" ]]; then echo "IPv6 JSON not found, failing..." && exit 1; else echo "IPv6 JSON found"; fi

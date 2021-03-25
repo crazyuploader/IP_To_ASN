@@ -21,7 +21,7 @@ if [[ -z "${GITLAB_TOKEN}" ]]; then
 fi
 
 # Clone GitLab Repository
-git clone https://"${GL_REF}" --branch master ~/ip_asn_json
+git clone https://"${GL_REF}" ~/ip_asn_json
 
 cp /tmp/prefix_asn_mapping_v4.json ~/ip_asn_json
 cp /tmp/prefix_asn_mapping_v6.json ~/ip_asn_json
