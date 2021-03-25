@@ -31,10 +31,10 @@ git config --global user.email "4677226-crazyuploader@users.noreply.gitlab.com"
 git config --global user.name "Jugal Kishore"
 
 cd ~/ip_asn_json
+echo "JSON File(s) as on: \n$(date)" > README.md
 if [[ -z $(git status --porcelain) ]]; then
     echo -e "${GREEN}Nothing to Commit${NC}"
 else
-    echo "JSON File(s) as on: \n$(date)" > README.md
     git add .
     git commit -m "GitHub Actions Daily Runner"
     git push https://crazyuploader:"${GITLAB_TOKEN}"@"${GL_REF}" HEAD:master
